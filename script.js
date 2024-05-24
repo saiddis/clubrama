@@ -1,21 +1,33 @@
 class Memorama {
-    constructor(difficulty, cardsNumber, images) {
+    constructor(startingAttempts = 5, cardsNumber = 2, images = [
+        "images/man-city.png",
+        "images/real-madrid.png",
+        "images/bayern.png",
+        "images/dortmund.png",
+        "images/barcelona.png",
+        "images/milan.png",
+        "images/inter.png",
+        "images/liverpool.png",
+        "images/arsenal.png",
+        "images/man-united.png"
+    ]) {
         this.flippedCards = [];
         this.matchedPairs = 0; 
-        this.difficulty = difficulty;
         this.cardsNumber = cardsNumber;
         this.images = images;
+        this.startingAttempts = startingAttempts;
         this.attempts = document.body.querySelector('.attempts').lastElementChild;
+        this.attempts.innerHTML = this.startingAttempts;
         this.level = document.body.querySelector('.level').lastElementChild;
         this.cardsGrid = document.createElement('div');
         this.main = document.querySelector('main');
         this.symbols = this.shuffle(this.images, this.cardsNumber);
+        this.cardsSize = getComputedStyle(document.documentElement).getPropertyValue('--cards-size');
     }
 
     shuffle(array, num) {
-        let newArray = [...array];
-        newArray.length = num;
-        newArray.join(newArray);
+        let newArray = array.slice(0, num);
+        newArray = newArray.concat(newArray);
         for (let i = newArray.length - 1; i > 0; i--) {
             const j  = Math.floor(Math.random() * (i + 1));
             [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
@@ -64,7 +76,7 @@ class Memorama {
         if (value1 == value2) {
             this.matchedPairs++;
             this.flippedCards = [];
-            if (this.matchedPairs == this.symbols.length) {
+            if (this.matchedPairs == this.cardsNumber) {
                 setTimeout(() => {
                     this.newLevel();
 
@@ -91,47 +103,26 @@ class Memorama {
     }
 
     newLevel() {
-        this.cardsNumber++;
-        +this.level.textContent++;
+
+        this.level.textContent++;
+        this.cardsNumber += 2;
+        this.startingAttempts += 2;
+        document.documentElement.style.setProperty('--cards-size', `${+this.cardsSize.slice(0, 3) - 40}px`);
         this.cardsGrid.remove();
-        const newLevel = new Memorama(this.difficulty, this.cardsNumber, this.images);
-        +newLevel.attempts.textContent++;
+        const newLevel = new Memorama(this.startingAttempts, this.cardsNumber);
         newLevel.initGame();
     }
 
     initGame() {
-        if (this.difficulty.toLowerCase() == 'easy' ||
-            this.difficulty.toLowerCase() == 'e') {
-                this.attempts.textContent = 7;
-
-        } else if (
-            this.difficulty.toLowerCase() == 'medium' ||
-            this.difficulty.toLowerCase() == 'm' ||
-            !this.difficulty) {
-                this.attempts.textContent = 5;
-
-        } else {
-            this.attempts.textContent = 3;
-
-        }
-
         this.main.append(this.cardsGrid);
         this.cardsGrid.classList.add('cards-grid');
-        this.cardsGrid.style.gridTemplateColumns = `repeat(${Math.floor(Math.sqrt(this.symbols.length))+2}, 1fr)`
+        this.cardsGrid.style.gridTemplateColumns = `repeat(${Math.floor(Math.sqrt(this.symbols.length))}, 1fr)`
         this.main.append(this.cardsGrid);
-        this.symbols.forEach(symbol => this.createCards(symbol, this.cardsGrid));
+
     }
 }
 
 document.body.style.height = document.documentElement.clientHeight + 'px';
 
-let game = new Memorama(prompt('Choose difficulty level: Easy, Medium, Hard'), 3, [
-    "images/man-city.png",
-    "images/real-madrid.png",
-    "images/bayern.png",
-    "images/dortmund.png",
-    "images/barcelona.png",
-    "images/milan.png",
-    "images/inter.png"
-]);
+let game = new Memorama();
 game.initGame();

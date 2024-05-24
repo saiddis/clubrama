@@ -1,3 +1,7 @@
+:root {
+    --cards-size: 200px;
+}
+
 body {
     box-sizing: border-box;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -69,8 +73,8 @@ h2 {
 }
 
 .card {
-    width: 100px;
-    height: 100px;
+    width: var(--cards-size);
+    height: var(--cards-size);
     position: relative;
     perspective: 1000px;
     
@@ -82,6 +86,7 @@ h2 {
     position: absolute;
     transform-style: preserve-3d;
     transition: transform 1s;
+
 }
 
 .card.flipped .card-content {
@@ -94,15 +99,18 @@ h2 {
     position: absolute;
     background-color: lightblue;
     outline: 5px solid lightskyblue;
-    border-radius: 10px;
+    border-radius: 10%;
     backface-visibility: hidden;
 }
 
 .back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transform: rotateY(180deg);
 }
 
 img {
-    width: 100%;
-    height: auto;
+    max-width: 90%;
+    max-height: 90%;
 }
