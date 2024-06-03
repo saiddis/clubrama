@@ -55,17 +55,6 @@ class Memorama {
         grid.append(card);
     }
 
-    newLevel() {
-        this.level.textContent++;
-        this.cardsNumber += 3;
-        this.startingAttempts += 6;
-        document.documentElement.style.setProperty('--cards-size', `${+this.cardsSize.slice(0, 3) - 15}px`);
-        this.cardsGrid.remove();
-        const newLevel = new Memorama(this.startingAttempts, this.cardsNumber);
-        newLevel.cardsGrid.style.gridTemplateColumns = `repeat(${this.level.textContent * 2}, 1fr)`;
-        newLevel.initGame();
-    }
-
     flipCards(card) {
         if (this.flippedCards.length < 2 &&
             !card.classList.contains('flipped')) {
@@ -152,6 +141,17 @@ class Memorama {
         message.style.top = document.documentElement.clientHeight / 2 - message.offsetHeight / 2 + 'px';
     }
 
+    newLevel() {
+        this.level.textContent++;
+        this.cardsNumber += 3;
+        this.startingAttempts += 6;
+        document.documentElement.style.setProperty('--cards-size', `${+this.cardsSize.slice(0, 3) - 15}px`);
+        this.cardsGrid.remove();
+        const newLevel = new Memorama(this.startingAttempts, this.cardsNumber);
+        newLevel.cardsGrid.style.gridTemplateColumns = `repeat(${this.level.textContent * 2}, 1fr)`;
+        newLevel.initGame();
+    }
+
     initGame() {
         this.main.append(this.cardsGrid);
         this.cardsGrid.classList.add('cards-grid');
@@ -168,7 +168,7 @@ class Memorama {
 document.body.style.height = document.documentElement.clientHeight + 'px';
 document.ondragstart = function() {
     return false;
-}
+};
 
 let game = new Memorama();
 game.initGame();
