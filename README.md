@@ -5,7 +5,7 @@
 In this game I used logos of football clubs as symbols on the cards (that's why I named it **Clubrama**).  
 **Clubrama** has 3 levels. Passing to each level the game gets harder by adding more cards into the grid.
 
-## Here is how it looks like:
+## Here is how it looks:
 <img width="960" alt="image" src="https://github.com/saiddis/clubrama/assets/158997207/f0ad7174-f297-4797-9c3a-1cec2dbe19b8">  
 
 ## Why did I make this game?
